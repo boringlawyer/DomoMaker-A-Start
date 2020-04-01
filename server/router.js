@@ -1,5 +1,6 @@
 const controllers = require('./controllers');
 const middleware = require('./middleware');
+
 const router = (app) => {
   app.get('/login', middleware.requiresSecure, middleware.requiresLogout, controllers.Account.loginPage);
   app.post('/login', middleware.requiresSecure, middleware.requiresLogout, controllers.Account.login);
