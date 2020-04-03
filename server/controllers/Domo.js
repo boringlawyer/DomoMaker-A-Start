@@ -26,7 +26,21 @@ const makeDomo = (req, res) => {
 
   const domoPromise = newDomo.save();
 
-  domoPromise.then(() => res.json({ redirect: '/maker' }));
+  domoPromise.then(() => {
+    // let ownerAccount = models.Account.AccountModel.findById(newDomo.owner);
+    // ownerAccount.numDomos += 1;
+    // let saveOwnerPromise = ownerAccount.save();
+    models.Account.AccountModel.findById(newDomo.owner, (err, doc) => {
+      if (err || !doc) {
+        return res.status(400).json({error: 'An error occurred'});
+      }
+      let owner = doc;
+      owner.numDomos++;
+      owner.save().then(() => {
+        res.json({ redirect: '/maker' });
+      })
+    })
+  });
 
   domoPromise.catch((err) => {
     console.log(err);

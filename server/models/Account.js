@@ -28,6 +28,12 @@ const AccountSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  numDomos: {
+    type: Number,
+    default: 0,
+    required: true,
+    min: 0
+  }
 });
 
 AccountSchema.statics.toAPI = (doc) => ({
@@ -54,6 +60,15 @@ AccountSchema.statics.findByUsername = (name, callback) => {
 
   return AccountModel.findOne(search, callback);
 };
+
+AccountSchema.statics.findById = (id, callback) => {
+  const search = {
+    _id: id,
+  };
+
+  return AccountModel.findOne(search, callback);
+};
+
 
 AccountSchema.statics.generateHash = (password, callback) => {
   const salt = crypto.randomBytes(saltLength);
