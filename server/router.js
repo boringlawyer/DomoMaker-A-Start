@@ -10,6 +10,7 @@ const router = (app) => {
   app.get('/logout', middleware.requiresLogin, controllers.Account.logout);
   app.get('/maker', middleware.requiresLogin, controllers.Domo.makerPage);
   app.post('/maker', middleware.requiresLogin, controllers.Domo.make);
+  app.post('/editDomo', middleware.requiresLogin, controllers.Domo.editDomo);
   app.get('/', middleware.requiresSecure, middleware.requiresLogout, controllers.Account.loginPage);
 };
 

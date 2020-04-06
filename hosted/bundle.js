@@ -76,26 +76,27 @@ var DomoForm = function DomoForm(props) {
   }));
 };
 
-var handleEditDomo = function handleEditDomo(e, domoID) {
+var handleEditDomo = function handleEditDomo(e, domoId) {
   e.preventDefault();
   $("#domoMessage").animate({
     width: 'hide'
   }, 350);
 
-  if ($("#".concat(domoID, " #editDomoForm #domoName")).val() == '' || $("#".concat(domoID, " #editDomoForm #domoAge")).val() == '') {
+  if ($("".concat("#editDomoForm_" + domoId, " #domoName")).val() == '' || $("".concat("#editDomoForm_" + domoId, " #domoAge")).val() == '') {
     handleError("RAWR! All fields are required");
     return false;
-  } // sendAjax('POST', $("domoForm").attr("action"), $("#domoForm").serializeArray(), function() {
-  //     loadDomosFromServer();
-  // });
+  }
 
-
+  var test = $("".concat("#editDomoForm_" + domoId));
+  var testg = test.serializeArray();
+  sendAjax('POST', $("".concat("#editDomoForm_" + domoId)).attr("action"), $("".concat("#editDomoForm_" + domoId)).serializeArray(), loadDomosFromServer);
   return false;
 };
 
 var EditDomoForm = function EditDomoForm(props) {
   return /*#__PURE__*/React.createElement("form", {
-    id: "editDomoForm",
+    id: "editDomoForm_" + props.domoId // with help from https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
+    ,
     onSubmit: function onSubmit(e) {
       return handleEditDomo(e, props.domoId);
     },
@@ -121,6 +122,10 @@ var EditDomoForm = function EditDomoForm(props) {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_id",
+    value: props.domoId
   }), /*#__PURE__*/React.createElement("input", {
     className: "makeDomoSubmit",
     type: "submit",

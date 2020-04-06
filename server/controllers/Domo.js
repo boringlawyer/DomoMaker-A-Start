@@ -63,6 +63,24 @@ const getDomos = (req, res) => Domo.DomoModel.findByOwner(req.session.account._i
   return res.json({ domos: docs });
 });
 
+const editDomo =(req, res) => {
+  Domo.DomoModel.findById(req.body._id, (err, doc) => {
+    if (err || !doc) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+    const modifiedDomo = doc;
+    modifiedDomo.name = req.body.name;
+    modifiedDomo.age = req.body.age;
+    const domoSavePromise = modifiedDomo.save();
+    domoSavePromise.then(() => {
+      console.log("fffffffffffffff")
+      return res.status(201).json({redirect: 'maker'});
+    })
+  });
+}
+
 module.exports.makerPage = makerPage;
 module.exports.getDomos = getDomos;
 module.exports.make = makeDomo;
+module.exports.editDomo = editDomo;

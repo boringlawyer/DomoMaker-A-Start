@@ -35,26 +35,26 @@ const DomoForm = (props) => {
     )
 }
 
-const handleEditDomo = (e, domoID) => {
+const handleEditDomo = (e, domoId) => {
     e.preventDefault();
 
     $("#domoMessage").animate({width:'hide'}, 350);
 
-    if ($(`#${domoID} #editDomoForm #domoName`).val() == '' || $(`#${domoID} #editDomoForm #domoAge`).val() == '') {
+    if ($(`${"#editDomoForm_" + domoId} #domoName`).val() == '' || $(`${"#editDomoForm_" + domoId} #domoAge`).val() == '') {
         handleError("RAWR! All fields are required");
         return false;
     }
-
-    // sendAjax('POST', $("domoForm").attr("action"), $("#domoForm").serializeArray(), function() {
-    //     loadDomosFromServer();
-    // });
+    let test = $(`${"#editDomoForm_" + domoId}`);
+    let testg = test.serializeArray();
+    sendAjax('POST', $(`${"#editDomoForm_" + domoId}`).attr("action"), $(`${"#editDomoForm_" + domoId}`).serializeArray(), loadDomosFromServer);
 
     return false;
 }
 
 const EditDomoForm = (props) => {
     return (
-        <form id="editDomoForm"
+        <form id={"editDomoForm_" + props.domoId}
+            // with help from https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
             onSubmit={(e) => handleEditDomo(e, props.domoId)}
             name="editDomoForm"
             action="/editDomo"
@@ -66,6 +66,7 @@ const EditDomoForm = (props) => {
             <label htmlFor="age">New Age: </label>
             <input id="domoAge" type="text" name="age" placeHolder="Domo Age"/>
             <input type="hidden" name="_csrf" value={props.csrf}/>
+            <input type="hidden" name="_id" value={props.domoId}/>
             <input className="makeDomoSubmit" type="submit" value="Make Domo"/>
         </form>
     )

@@ -25,7 +25,7 @@ const handleSignup = (e) => {
         return false;
     }
 
-    sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serialize(), redirect);
+    sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serializeArray(), redirect);
 
     return false;
 }
