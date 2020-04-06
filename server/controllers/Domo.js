@@ -32,23 +32,21 @@ const makeDomo = (req, res) => {
     // let saveOwnerPromise = ownerAccount.save();
     models.Account.AccountModel.findById(newDomo.owner, (err, doc) => {
       if (err || !doc) {
-        return res.status(400).json({error: 'An error occurred'});
+        return res.status(400).json({ error: 'An error occurred' });
       }
-      let owner = doc;
+      const owner = doc;
       owner.numDomos++;
-      owner.save().then(() => {
-        res.json({ redirect: '/maker' });
-      })
-    })
+      return owner.save().then(() => res.json({ redirect: '/maker' }));
+    });
   });
 
   domoPromise.catch((err) => {
     console.log(err);
     if (err.code === 11000) {
-      return res.status(400).json({ error: 'Domo already exists' });
+      res.status(400).json({ error: 'Domo already exists' });
     }
 
-    return res.status(400).json({ error: 'An error occurred' });
+    res.status(400).json({ error: 'An error occurred' });
   });
 
   return domoPromise;
@@ -63,7 +61,7 @@ const getDomos = (req, res) => Domo.DomoModel.findByOwner(req.session.account._i
   return res.json({ domos: docs });
 });
 
-const editDomo =(req, res) => {
+const editDomo = (req, res) => {
   Domo.DomoModel.findById(req.body._id, (err, doc) => {
     if (err || !doc) {
       console.log(err);
@@ -73,12 +71,9 @@ const editDomo =(req, res) => {
     modifiedDomo.name = req.body.name;
     modifiedDomo.age = req.body.age;
     const domoSavePromise = modifiedDomo.save();
-    domoSavePromise.then(() => {
-      console.log("fffffffffffffff")
-      return res.status(201).json({redirect: 'maker'});
-    })
+    return domoSavePromise.then(() => res.status(201).json({ redirect: 'maker' }));
   });
-}
+};
 
 module.exports.makerPage = makerPage;
 module.exports.getDomos = getDomos;

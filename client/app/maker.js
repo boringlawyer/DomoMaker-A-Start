@@ -67,7 +67,7 @@ const EditDomoForm = (props) => {
             <input id="domoAge" type="text" name="age" placeHolder="Domo Age"/>
             <input type="hidden" name="_csrf" value={props.csrf}/>
             <input type="hidden" name="_id" value={props.domoId}/>
-            <input className="makeDomoSubmit" type="submit" value="Make Domo"/>
+            <input className="makeDomoSubmit" type="submit" value="Edit Domo"/>
         </form>
     )
 }

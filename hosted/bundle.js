@@ -129,7 +129,7 @@ var EditDomoForm = function EditDomoForm(props) {
   }), /*#__PURE__*/React.createElement("input", {
     className: "makeDomoSubmit",
     type: "submit",
-    value: "Make Domo"
+    value: "Edit Domo"
   }));
 };
 

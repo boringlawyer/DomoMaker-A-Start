@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const compression = require('compression');
@@ -29,11 +30,11 @@ mongoose.connect(dbURL, mongooseOptions, (err) => {
 });
 
 let redisURL = {
-  hostname: 'redis-13370.c14.us-east-1-3.ec2.cloud.redislabs.com',
-  port: '13370',
+  hostname: `${process.env.REDIS_HOST}`,
+  port: `${process.env.REDIS_PORT}`,
 };
 
-let redisPASS = 'dg5NUBQSyggsioICTYwqT7hhIBK1Tsep';
+let redisPASS = `${process.env.REDIS_PASS}`;
 
 if (process.env.REDISCLOUD_URL) {
   redisURL = url.parse(process.env.REDISCLOUD_URL);
