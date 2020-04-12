@@ -3,7 +3,7 @@ const handleDomo = (e) => {
 
     $("#domoMessage").animate({width:'hide'}, 350);
 
-    if ($("#domoName").val() == '' || $("#domoAge").val() == '') {
+    if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoNickname").val() == '') {
         handleError("RAWR! All fields are required");
         return false;
     }
@@ -26,6 +26,8 @@ const DomoForm = (props) => {
         >
             <label htmlFor="name">Name: </label>
             <input id="domoName" type="text" name="name" placeHolder="Domo Name"/>
+            <label htmlFor="nickname">Nickname: </label>
+            <input id="domoNickname" type="text" name="nickname" placeHolder="Domo Nickname"/>
             <label htmlFor="age">Age: </label>
             <input id="domoAge" type="text" name="age" placeHolder="Domo Age"/>
             <input type="hidden" name="_csrf" value={props.csrf}/>
@@ -40,12 +42,10 @@ const handleEditDomo = (e, domoId) => {
 
     $("#domoMessage").animate({width:'hide'}, 350);
 
-    if ($(`${"#editDomoForm_" + domoId} #domoName`).val() == '' || $(`${"#editDomoForm_" + domoId} #domoAge`).val() == '') {
+    if ($(`${"#editDomoForm_" + domoId} #domoName`).val() == '' || $(`${"#editDomoForm_" + domoId} #domoAge`).val() == '' || $(`${"#editDomoForm_" + domoId} #domoNickname`).val() == '') {
         handleError("RAWR! All fields are required");
         return false;
     }
-    let test = $(`${"#editDomoForm_" + domoId}`);
-    let testg = test.serializeArray();
     sendAjax('POST', $(`${"#editDomoForm_" + domoId}`).attr("action"), $(`${"#editDomoForm_" + domoId}`).serializeArray(), loadDomosFromServer);
 
     return false;
@@ -63,6 +63,8 @@ const EditDomoForm = (props) => {
         >
             <label htmlFor="name">New Name: </label>
             <input id="domoName" type="text" name="name" placeHolder="Domo Name"/>
+            <label htmlFor="nickname">New Nickname: </label>
+            <input id="domoNickname" type="text" name="nickname" placeHolder="Domo Nickname"/>
             <label htmlFor="age">New Age: </label>
             <input id="domoAge" type="text" name="age" placeHolder="Domo Age"/>
             <input type="hidden" name="_csrf" value={props.csrf}/>
@@ -98,7 +100,7 @@ class DomoList extends React.Component {
                 //     <h3 className="domoAge">Age: {domo.age}</h3>
                 //     <button onClick = {this.toggleIsBeingEdited}>Edit</button>
                 // </div>
-                <DomoItem _id={domo._id} name={domo.name} age={domo.age}/>
+                <DomoItem _id={domo._id} name={domo.name} age={domo.age} nickname={domo.nickname}/>
             );
         }, this);
 
@@ -132,6 +134,7 @@ class DomoItem extends React.Component {
                 <img src = "/assets/img/domoface.jpeg" alt = "Domo face" className="domoFace" />
                 <h3 className="domoName">Name: {this.props.name}</h3>
                 <h3 className="domoAge">Age: {this.props.age}</h3>
+                <h3 className="domoNickname">Nickname: {this.props.nickname}</h3>
                 <button onClick = {this.toggleIsBeingEdited}>Edit</button>
             </div>
             {this.state.isBeingEdited ? <EditDomoForm csrf={DomoItem.csrf || ''} domoId = {this.props._id}/> : ''}

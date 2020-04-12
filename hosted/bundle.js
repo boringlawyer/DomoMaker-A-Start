@@ -28,7 +28,7 @@ var handleDomo = function handleDomo(e) {
     width: 'hide'
   }, 350);
 
-  if ($("#domoName").val() == '' || $("#domoAge").val() == '') {
+  if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoNickname").val() == '') {
     handleError("RAWR! All fields are required");
     return false;
   }
@@ -54,6 +54,13 @@ var DomoForm = function DomoForm(props) {
     type: "text",
     name: "name",
     placeHolder: "Domo Name"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "nickname"
+  }, "Nickname: "), /*#__PURE__*/React.createElement("input", {
+    id: "domoNickname",
+    type: "text",
+    name: "nickname",
+    placeHolder: "Domo Nickname"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "age"
   }, "Age: "), /*#__PURE__*/React.createElement("input", {
@@ -82,13 +89,11 @@ var handleEditDomo = function handleEditDomo(e, domoId) {
     width: 'hide'
   }, 350);
 
-  if ($("".concat("#editDomoForm_" + domoId, " #domoName")).val() == '' || $("".concat("#editDomoForm_" + domoId, " #domoAge")).val() == '') {
+  if ($("".concat("#editDomoForm_" + domoId, " #domoName")).val() == '' || $("".concat("#editDomoForm_" + domoId, " #domoAge")).val() == '' || $("".concat("#editDomoForm_" + domoId, " #domoNickname")).val() == '') {
     handleError("RAWR! All fields are required");
     return false;
   }
 
-  var test = $("".concat("#editDomoForm_" + domoId));
-  var testg = test.serializeArray();
   sendAjax('POST', $("".concat("#editDomoForm_" + domoId)).attr("action"), $("".concat("#editDomoForm_" + domoId)).serializeArray(), loadDomosFromServer);
   return false;
 };
@@ -111,6 +116,13 @@ var EditDomoForm = function EditDomoForm(props) {
     type: "text",
     name: "name",
     placeHolder: "Domo Name"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "nickname"
+  }, "New Nickname: "), /*#__PURE__*/React.createElement("input", {
+    id: "domoNickname",
+    type: "text",
+    name: "nickname",
+    placeHolder: "Domo Nickname"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "age"
   }, "New Age: "), /*#__PURE__*/React.createElement("input", {
@@ -173,7 +185,8 @@ var DomoList = /*#__PURE__*/function (_React$Component) {
           React.createElement(DomoItem, {
             _id: domo._id,
             name: domo.name,
-            age: domo.age
+            age: domo.age,
+            nickname: domo.nickname
           })
         );
       }, this);
@@ -229,7 +242,9 @@ var DomoItem = /*#__PURE__*/function (_React$Component2) {
         className: "domoName"
       }, "Name: ", this.props.name), /*#__PURE__*/React.createElement("h3", {
         className: "domoAge"
-      }, "Age: ", this.props.age), /*#__PURE__*/React.createElement("button", {
+      }, "Age: ", this.props.age), /*#__PURE__*/React.createElement("h3", {
+        className: "domoNickname"
+      }, "Nickname: ", this.props.nickname), /*#__PURE__*/React.createElement("button", {
         onClick: this.toggleIsBeingEdited
       }, "Edit")), this.state.isBeingEdited ? /*#__PURE__*/React.createElement(EditDomoForm, {
         csrf: DomoItem.csrf || '',

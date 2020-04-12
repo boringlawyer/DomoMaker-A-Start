@@ -12,13 +12,14 @@ const makerPage = (req, res) => {
   });
 };
 const makeDomo = (req, res) => {
-  if (!req.body.name || !req.body.age) {
-    return res.status(400).json({ error: 'RAWR! Both age and name are required' });
+  if (!req.body.name || !req.body.age || !req.body.nickname) {
+    return res.status(400).json({ error: 'RAWR! Age, name and nickname are required' });
   }
 
   const domoData = {
     name: req.body.name,
     age: req.body.age,
+    nickname: req.body.nickname,
     owner: req.session.account._id,
   };
 
@@ -70,6 +71,7 @@ const editDomo = (req, res) => {
     const modifiedDomo = doc;
     modifiedDomo.name = req.body.name;
     modifiedDomo.age = req.body.age;
+    modifiedDomo.nickname = req.body.nickname;
     const domoSavePromise = modifiedDomo.save();
     return domoSavePromise.then(() => res.status(201).json({ redirect: 'maker' }));
   });
